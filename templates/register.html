@@ -1,0 +1,68 @@
+{% extends "main.html" %}
+{% block body %}
+
+<h3 class="mb-3">Register</h3>
+<form action="/register" method="POST" onsubmit="return validate()">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email">
+        <div id="emailHelp" class="form-text">Your email address, used for contact and login</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password">
+        <div id="emailHelp" class="form-text">Choose a strong password</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Password verification</label>
+        <input type="password" class="form-control" name="cpassword">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" name="fName" >
+        <div class="form-text">Your first name, used for shipping and invoicing</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" name="lName" >
+        <div class="form-text">Your last name, used for shipping and invoicing</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input class="form-control" type="text" name="addr1" >
+        <div class="form-text">Your shipping address</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Address (continuation)</label>
+        <input class="form-control" type="text" name="addr2" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Zip Code</label>
+        <input class="form-control" type="text" name="zip" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">City</label>
+        <input class="form-control" type="text" name="city">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">County</label>
+        <input class="form-control" type="text" name="county" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Country</label>
+        <input class="form-control" type="text" name="country" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input class="form-control" type="text" name="mobile" >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "main.html" %}
+{% block body %}
+<div id="cartItems">
+	<h2>Checkout</h2>
+
+	<h4 class="mt-5">1. Ordered Products</h4>
+
+	<table id="cart-content" class="mt-1 mb-5 table table-striped table-hover align-middle table-sm condensed">
+		<thead>
+			<th>Image</th>
+			<th>Product</th>
+			<th class="text-center">Size</th>
+			<th class="text-center">Quantity</th>
+			<th class="text-right">Price</th>
+		</thead>
+		<tbody>
+			{% for row in products %}
+			<tr>
+				<td>
+					<img width="50px" class="itemName" src={{url_for('static', filename='uploads/' +row[3])}} />
+				</td>
+				<td>
+					{{row[1]}}
+				</td>
+				<td class="text-center">
+					{% if row[5] %}
+					{{row[6]}}
+					{% else %}
+					-
+					{% endif %}
+				</td>
+				<td class="text-center">
+					{{row[4]}}
+				</td>
+				<td class="text-right">
+					${{row[2]}}
+				</td>
+
+			</tr>
+			{% endfor %}
+			<tr class="table-info">
+				<td colspan="4"><strong>Subtotal</strong></td>
+				<td>${{totalPrice}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 class="mt-5">2. Delivery address</h4>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">First name:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[0]}}"></div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Zip code:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[4]}}"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Last name:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[1]}}"></div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">County:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[5]}}"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Address:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[2]}}"></div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Country:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[6]}}"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Address (cont):</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[3]}}"></div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row g-2 align-items-center my-2">
+					<div class="col-2"><label class="col-form-label">Contact phone:</label></div>
+					<div class="col-auto"> <input type="email" class="form-control" value="{{user[7]}}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<h4 class="mt-5">3. Shipment method</h4>
+	<div class="container">
+		<div class="form-check">
+			<input class="form-check-input" type="radio" name="shipment" value="FC">
+			<label class="form-check-label">Fan Curier</label>
+		  </div>
+		  
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="shipment" value="SD">
+			<label class="form-check-label">Sameday</label>
+		  </div>
+		  
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="paymshipmentent" value="Cargus">
+			<label class="form-check-label">Cargus</label>
+		  </div>
+	</div>
+	
+	<h4 class="mt-5">4. Payment method</h4>
+	<div class="container">
+		<div class="form-check">
+			<input class="form-check-input" type="radio" name="payment" value="VISA">
+			<label class="form-check-label">VISA</label>
+		  </div>
+		  
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="payment" value="MC">
+			<label class="form-check-label">MasterCard</label>
+		  </div>
+		  
+		  <div class="form-check">
+			<input class="form-check-input" type="radio" name="payment" value="COD">
+			<label class="form-check-label">Cash on Delivery</label>
+		  </div>
+	</div>
+		
+
+	<a href="/order" type="button" class="btn btn-success btn-lg mt-4">Place order</a>
+
+
+	
+{% endblock %}

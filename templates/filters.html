@@ -1,0 +1,35 @@
+{% if filterData %}
+    <div id="filters">
+        <h3>Filters</h3>
+        <form action="/search" method="POST">
+            <h4>Availability</h4>
+            <ul>
+                <li>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" name="instock" type="checkbox" {% if instock %}checked{% endif %} value="1">
+                        <label>In stock ({{nrinstock}})</label>
+                    </div>
+                </li>
+            </ul>
+            {% for filterRow in filterData %}
+            <h4>{{filterRow[1]}}</h4>
+            <ul>
+                {% for groupRow in filterGroup %}
+                {% if groupRow[3] == filterRow[0] %}
+                <li>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" name="categ-{{groupRow[0]}}" type="checkbox" {% if groupRow[4] %}checked{% endif %} value="{{groupRow[0]}}">
+                        <label>{{groupRow[2]}} ({{groupRow[1]}})</label>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endfor %}
+            <input type="hidden" name="searchQuery" value="{% if searchQuery is not none and searchQuery %}{{searchQuery}}{% endif %}" />
+            
+            <button type="submit" class="btn btn-sm ml-5 px-5 btn-outline-light">Apply</button>
+            
+        </form>
+    </div>
+{% endif %}

@@ -1,0 +1,148 @@
+
+#main {
+    margin: 40px 0px 0px 0px;
+    padding: 10px 10px 0px 0px;
+}
+
+#content {
+    margin: 0px;
+    padding: 30px;
+}
+
+footer {
+    margin: 0px;
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+}
+/* Sidebar Styles */
+
+#sidebar {
+    padding: 30px 20px;
+    margin: 0px;
+    background: #37474F;
+}
+
+#sidebar .nav a{
+    background: none;
+    border-bottom: 1px solid #455A64;
+    color: #CFD8DC;
+    font-size: 14px;
+    padding: 16px 24px;
+}
+
+#sidebar .nav a:hover{
+  background: none;
+  color: #ECEFF1;
+}
+
+#sidebar .nav a i{
+  margin-right: 16px;
+}
+
+#filters ul,
+#filter li {
+    list-style-type: none;
+    list-style-position: outside;
+}
+
+#filters label {
+    color: white;
+    font-size: .8em;
+    padding-left: .5em;
+}
+#filters h3 {
+    display: none;
+}
+
+#filters h4 {
+    color: #8889ff;
+    font-size: 1em;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.product h5 {
+    font-size: 1rem;
+}
+
+.productImage {
+    width: 100%;
+  /*  height: 15vw;
+    object-fit: cover; */
+}
+
+#products-admin .productImage{
+    width: 40px;
+}
+
+#order-history a,
+#order-history a:visited,
+#order-history a:link,
+#products-admin a,
+#products-admin a:visited,
+#products-admin a:link {
+    text-decoration: none;
+    color:#455A64;
+}
+
+#tags {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+    justify-items: center;
+}
+
+#tags .btn-sm {
+    font-size: .7em;
+}
+
+#similar h3 {
+    color: #8889ff;
+    font-size: 16px;
+}
+
+#similar ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#similar li {
+    list-style-type: none;
+    list-style-position: outside;
+    margin: 0px;
+    padding: 10px 5px ;
+    border-bottom: 1px solid #8889ff;
+}
+
+#similar img {
+    max-width: 30px;
+    max-height: 30px;
+    margin: 0px 10px 0px;
+}
+
+#similar a {
+    color: #fff;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+#sidebar ul.links,
+#sidebar ul.links li {
+    list-style: none;
+    list-style-position: outside;
+}
+
+#sidebar .links a,
+#sidebar .links a:link,
+#sidebar .links a:visited {
+    margin-bottom: 1em;
+    display: block;
+    color:#8889ff;
+    text-decoration: none;
+}

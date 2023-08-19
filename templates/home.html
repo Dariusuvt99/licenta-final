@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+{% block body %}
+	<div>
+		{% if itemData %}
+		<h2>
+		{% if searchQuery is none %}
+			Products
+		{% else %}
+			{% if searchQuery %}
+				Products matching <em>{{searchQuery}}</em>
+			{% else %}
+				Matching products
+			{% endif %}
+		{% endif %}
+		</h2>
+		<div class="row row-cols-md-4 row-cols-1">
+			{% for row in itemData %}
+				{% with product=row %}
+					{% include "product.html" %}
+				{% endwith %}
+			{% endfor %}
+		</div>
+		{% else %}
+			<p>There are no matching products, please remove some filters.</p>
+		{% endif %}
+	</div>
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% if url_for(request.endpoint) == '/admin' %}
+<ul style="position: fixed;" class="links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#orders">Orders</a></li>
+    <li><a href="#users">Users</a></li>
+</ul>
+{% endif %}
+
+<div style="position: fixed; width: 200px;">
+{% if url_for(request.endpoint) == '/account/profile/edit' %}
+    <p class="text-secondary">On this page you can modify your profile details.</p>
+    <p class="text-secondary">The address will be used for shippment.</p>
+{% endif %}
+
+{% if url_for(request.endpoint) == '/account/orders' %}
+    <p class="text-secondary">History of your orders.</p>
+    <p class="text-secondary">Click on each order to view the ordered products.</p>
+{% endif %}
+
+{% if url_for(request.endpoint) == '/cart' %}
+    <p class="text-secondary">The contents of your shopping cart.</p>
+    <p class="text-secondary">At this stage the order is not placed yet, so you can still remove items from the cart.</p>
+    <p class="text-secondary">Please press <em>Proceed to checkout</em> to continue with your delivery address and shipping options.</p>
+{% endif %}
+
+{% if url_for(request.endpoint) == '/checkout' %}
+    <p class="text-secondary">Final review for your ordered products.</p>
+    <p class="text-secondary">Please enter the delivery address, choose a delivery method and a payment method.</p>
+    <p class="text-secondary">Please press <em>Place order</em> to submit and confirm your order.</p>
+{% endif %}
+
+{% if url_for(request.endpoint) == '/viewOrder' %}
+    <p class="text-secondary">Details of order #{{order[0]}}</p>
+    <p class="text-secondary">Order was placed<br/><strong>{{order[2]}}</strong></p>
+    <p class="text-secondary">Total: <strong>${{order[3]}}</strong></p>
+{% endif %}
+</div>
+

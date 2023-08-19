@@ -1,0 +1,15 @@
+{% if similar %}
+<div id="similar">
+        <h3>You may also like</h3>
+        <ul>
+        {% for p in similar %}
+            <li>
+                <a href="/productDescription?prodId={{p[0]}}">
+                    <img class="card-img-top" src={{ url_for('static', filename='uploads/' + p[2]) }} id="itemImage" />
+                    <span>{{p[1]}}</span>
+                </a> 
+            </li> 
+        {% endfor %}
+        </ul>
+</div>
+{% endif %}

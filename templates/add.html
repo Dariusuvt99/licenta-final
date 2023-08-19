@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block body %}
+<h2>Add new product</h2>
+<form action="/saveItem" method="POST" enctype="multipart/form-data">
+
+	<div class="mb-3">	
+		<label class="form-label">Name</label>
+		<input class="form-control" type="text" name="name"  />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Price</label>
+		<input class="form-control" type="text" name="price"  />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Description</label>
+		<textarea class="form-control" name="descr" rows=3 cols="40"></textarea>
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Image</label>	
+		<input class="form-control" type="file" name="img" />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Stock</label>		
+		<input class="form-control" type="text" name="stock" />
+	</div>
+	<div class="mb-3">	
+		{% for f in filters %}	
+		<div class="mt-2 mb-1">
+			<label class="form-label"><em>{{f[1]}}</em></label>	
+			{% for row in categoryData %}
+				{% if row[3] == f[0] %}
+					<div class="form-check">
+						<input class="form-check-input form-check-sm" name="categ-{{row[0]}}" type="checkbox" />
+						<label class="small">{{row[1]}}</label>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	<input class="btn btn-success" type="submit" name="Add product" />
+</form>
+
+
+{% endblock %}

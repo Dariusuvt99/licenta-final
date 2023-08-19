@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block body %}
+
+	<h2>Orders</h2>
+	<table id="order-history" class="mt-5 mb-5 table table-striped table-hover align-middle ">
+		<thead>
+			<th>Order ID</th>
+			<th>Date placed</th>
+			<th class="text-right">Order total</th>
+		</thead>
+		<tbody>
+		{% for row in orders %}
+		<tr>
+			<td>
+				<a href="/viewOrder?orderId={{row[0]}}">
+					{{row[0]}}
+				</a>
+			</td>
+			<td>
+				<a href="/viewOrder?orderId={{row[0]}}">
+					{{row[2]}}
+				</a>
+			</td>
+            <td class="text-right">
+				<a href="/viewOrder?orderId={{row[0]}}">
+					{{row[3]}}
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+</div>
+
+{% endblock %}

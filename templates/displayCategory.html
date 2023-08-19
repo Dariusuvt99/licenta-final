@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% block body %}
+<div>
+	<h2>Showing all products of Category {{categoryName}}:</h2>
+	{% for itemData in data %}
+	<table>
+		<tr id="productName">
+			{% for row in itemData %}
+			<td>
+				{{row[1]}}
+			</td>
+			{% endfor %}
+		</tr>
+		<tr id="productImage">
+			{% for row in itemData %}
+			<td>
+				<a href="/productDescription?prodId={{row[0]}}">
+					<img src={{ url_for('static', filename='uploads/' + row[3]) }} id="itemImage" />
+				</a>
+			</td>
+			{% endfor %}
+		</tr>
+		<tr id="productPrice">
+			{% for row in itemData %}
+			<td>
+				${{row[2]}}
+			</td>
+			{% endfor %}
+		</tr>
+	</table>
+	{% endfor %}
+</div>
+{% endblock %}

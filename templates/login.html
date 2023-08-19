@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block body %}
+<p> {{error}} </p>
+<form action="/login" method="POST">
+	<div class="container w-50">
+		<h3 class="mb-3">Login</h3>
+		<div class="mb-3">
+			<label class="form-label">Email address</label>
+			<input type="email" class="form-control" name="email" />
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label">Password</label>
+			<input type="password" class="form-control" name="password" />
+		</div>
+
+		<div class="w-100 align-center">
+			<button type="submit" class="btn btn-primary mr-5">Login</button>
+			<a class="ml-5" href="/registerationForm">Register</a>
+		</div>
+		
+		
+	</div>
+</form>
+{% endblock %}

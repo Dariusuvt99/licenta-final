@@ -1,0 +1,68 @@
+{% extends "main.html" %}
+{% block body %}
+	<h2>Edit profile</h2>
+	<form action="/updateProfile" method="POST">
+		<div class="mb-3">
+			<label for="exampleInputEmail1" class="form-label">Email address</label>
+			<input type="email" class="form-control" value="{{profileData[1]}}"name="email" readonly="readonly" aria-describedby="emailHelp">
+			<div id="emailHelp" class="form-text">Your email address, used for contact and login</div>
+		</div>
+		
+		
+		<div class="mb-3">
+			<label class="form-label">New Password</label>
+			<input type="password" class="form-control" name="password">
+			<div id="emailHelp" class="form-text">Choose a strong password</div>
+		</div>
+	
+		<div class="mb-3">
+			<label class="form-label">New Password verification</label>
+			<input type="password" class="form-control" name="cpassword">
+		</div>
+		
+		<div class="mb-3">
+			<label class="form-label">First Name</label>
+			<input type="text" class="form-control" name="fName" value="{{profileData[2]}}">
+			<div class="form-text">Your first name, used for shipping and invoicing</div>
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label">Last Name</label>
+			<input type="text" class="form-control" name="lName" value="{{profileData[3]}}">
+			<div class="form-text">Your last name, used for shipping and invoicing</div>
+		</div>
+		
+		<div class="mb-3">
+			<label class="form-label">Address</label>
+			<input class="form-control" type="text" name="addr1" value="{{profileData[4]}}">
+			<div class="form-text">Your shipping address</div>
+		</div>
+		
+		<div class="mb-3">
+			<label class="form-label">Address (continuation)</label>
+			<input class="form-control" type="text" name="addr2" value="{{profileData[5]}}">
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Zip Code</label>
+			<input class="form-control" type="text" name="zip" value={{profileData[6]}}>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">City</label>
+			<input class="form-control" type="text" name="city" value={{profileData[7]}}>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">County</label>
+			<input class="form-control" type="text" name="county" value={{profileData[8]}}>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Country</label>
+			<input class="form-control" type="text" name="country" value={{profileData[9]}}>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Phone Number</label>
+			<input class="form-control" type="text" name="mobile" value={{profileData[10]}}>
+		</div>
+		
+		<button type="submit"  class="btn btn-primary">Save profile</button>
+	</form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+{% block body %}
+<h2>Edit product: <em>{{prod[1]}}</em></h2>
+<form action="/saveItem" method="POST" enctype="multipart/form-data">
+	<input type="hidden" name="prodId" value="{{prod[0]}}" />
+	<div class="mb-3">	
+		<label class="form-label">Name</label>
+		<input class="form-control" type="text" name="name" value="{{prod[1]}}" />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Price</label>
+		<input class="form-control" type="text" name="price" value="{{prod[2]}}" />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Description</label>
+		<textarea class="form-control" name="descr" rows=3 cols="40">{{prod[3]}}</textarea>
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Image</label>	
+		<div class="form-text">
+				<img width="100px" src={{url_for('static', filename='uploads/'+prod[4]) }}/>
+		</div>
+		<input class="form-control" type="file" name="img" />
+	</div>
+	<div class="mb-3">	
+		<label class="form-label">Stock</label>		
+		<input class="form-control" type="text" name="stock" value="{{prod[5]}}" />
+	</div>
+	<div class="mb-3">	
+		{% for f in filters %}	
+		<div class="mt-2 mb-1">
+			<label class="form-label"><em>{{f[1]}}</em></label>	
+			{% for row in categoryData %}
+				{% if row[3] == f[0] %}
+					<div class="form-check">
+						<input class="form-check-input form-check-sm" name="categ-{{row[0]}}" type="checkbox" {% if row[2] %}checked{% endif %} value="{{row[0]}}" />
+						<label class="small">{{row[1]}}</label>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	<input class="btn btn-success" type="submit" />
+</form>
+
+{% if isAdmin %}
+<div style="float:right">
+	<a class="ml-auto btn btn-sm btn-outline-danger ml-5" href="/removeItem?prodId={{prod[0]}}">delete</a>
+</div>
+{% endif %}
+
+{% endblock %}

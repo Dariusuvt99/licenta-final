@@ -1,0 +1,22 @@
+<div class="col d-flex align-items-stretch mb-5">
+    <div class="card product" style="width: 16rem;">
+        <a href="/productDescription?prodId={{row[0]}}">
+            <img class="card-img-top" src={{ url_for('static', filename='uploads/' + product[4]) }} id="itemImage" />
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{product[1]}}</h5>
+            <p class="card-text">
+                {% if product[5] > 2 %}
+                    <span class="badge rounded-pill bg-success">In stock</span>
+                {% elif product[5] > 0 %}
+                    <span class="badge rounded-pill bg-warning text-dark">Limited stock</span>
+                {% else %}
+                    <span class="badge rounded-pill bg-secondary">Out of stock</span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="card-footer">
+            $ {{product[2]}}
+        </div>
+    </div>
+</div>

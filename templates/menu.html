@@ -1,0 +1,73 @@
+<!-- Image and text -->
+<nav class="navbar fixed-top  navbar-expand-lg navbar-dark bg-dark justify-content-between">
+    
+      
+    <a class="navbar-brand mx-3" href="/">
+        <img class="mx-1" id="logo" src={{ url_for('static', filename='images/logo.png' ) }} width="30" height="30"
+            class="d-inline-block align-top" />
+        D-Shop Clothing Store
+    </a>
+
+    <!-- search form -->
+    <form class=" w-100 mx-5" action="/search" method="POST">
+        <div class="flex-row  w-80  ml-auto mr-auto input-group mx-5"> 
+            <input class="form-control mr-sm-2 flex-grow-1" type="search" placeholder="Search" aria-label="Search" value="{% if searchQuery is not none %}{{searchQuery}}{% endif %}" name="searchQuery">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </div>
+    </form>
+
+    
+    <ul class="navbar-nav mr-auto mx-3">
+        
+        <!-- cart -->
+        <li class="nav-item mx-4 text-nowrap" style="width: 50px">
+            <a class="nav-link text-nowrap  position-relative" href="/cart">
+                <img width="26px" src={{url_for('static', filename='images/shoppingCart.png' )}}  />
+                 <span class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger">{{itemsNo}}</span>
+            </a>
+        </li>
+
+        
+        <!-- user -->
+        {% if not loggedIn %}
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/loginForm">Sign In</a>
+            </li>
+        {% else %}
+            <!-- li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Hello {{fName}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/account/orders">Your orders</a>
+                    <a class="dropdown-item" href="/account/profile">Your profile</a>
+                </div>
+            </li -->
+            
+            <li class="nav-item text-white text-nowrap">
+               <a class="nav-link disabled" > Hello {{fName}}</a>
+            </li>
+                
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/account/orders">Orders</a>
+            </li>
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/account/profile/edit">Profile</a>
+            </li>
+            
+            {% if isAdmin %}
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+            {% endif %}
+            
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        {% endif %}
+        
+
+    </ul>
+
+</nav>

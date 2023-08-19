@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+{% block body %}
+
+	<h2>Shopping Cart</h2>
+	<table id="cart-content" class="mt-5 mb-5 table table-striped table-hover align-middle">
+		<thead>
+			<th>Image</th>
+			<th>Product</th>
+			<th class="text-center">Size</th>
+			<th class="text-center">Quantity</th>
+			<th class="text-right">Price</th>
+			<th class="text-center">Action</th>
+		</thead>
+		<tbody>
+			{% for row in products %}
+			<tr>
+				<td>
+					<img width="50px" class="itemName" src={{url_for('static', filename='uploads/' +row[3])}} />
+				</td>
+				<td>
+					{{row[1]}}
+				</td>
+				<td class="text-center">
+					{% if row[5] %}
+						{{row[6]}}
+					{% else %}
+						-
+					{% endif %}
+				</td>
+				<td class="text-center">
+					{{row[4]}}
+				</td>
+				<td class="text-right">
+					${{row[2]}}
+				</td>
+				<td class="text-center">
+					<a class="text-danger" href="/removeFromCart?prodId={{row[0]}}&sizeId={{row[5]}}">Remove</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr class="table-info">
+				<td colspan="4"><strong>Subtotal</strong></td>
+				<td>${{totalPrice}}</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+	
+<a href="/checkout" type="button" class="btn btn-primary btn-lg">Proceed to checkout &raquo;</a>
+
+
+{% endblock %}

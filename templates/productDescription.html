@@ -1,0 +1,100 @@
+{% extends "main.html" %}
+{% block body %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<img src={{url_for('static', filename='uploads/'+data[4]) }} class="productImage"/>
+		</div>
+		
+		<div class="col-6">
+			<h1>{{data[1]}}</h1>
+			<p><span class="badge bg-light text-dark">SKU #{{data[0]}}</span></p>
+			<p>{{data[3]}}</p>
+			
+			<div class="row">
+				<div class="col">
+					<p>Price</p>
+				</div>
+				<div class="col">
+					<p><strong class="text-primary">${{data[2]}}</strong></p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col">
+					<p>Stock:</p>
+				</div>
+				<div class="col">
+					{% if data[5] > 2 %}
+                    	<span class="badge rounded-pill bg-success">In stock</span>
+					{% elif data[5] > 0 %}
+						<span class="badge rounded-pill bg-warning text-dark">Limited stock</span>
+					{% else %}
+						<span class="badge rounded-pill bg-secondary">Out of stock</span>
+					{% endif %}
+				</div>
+			</div>
+			
+			<form action="/addToCart" method="POST">
+			
+				<div class="row">
+					<div class="col">
+						<p>Quantity:</p>
+					</div>
+					<div class="col">
+						<input class="form-control w-50" type="text" value="1" name="qty" />
+					</div>
+				</div>
+				
+				{% if sizes %}
+				<div class="row">
+					<div class="col">
+						<p>Size:</p>
+					</div>
+					<div class="col">
+						<select class="form-select w-50" aria-label="Size" name="sizeId">
+						{% for row in sizes %}
+							<option value="{{row[0]}}">{{row[1]}}</option>	
+						{% endfor %}
+						</select>
+					</div>
+				</div>
+				{% else %}
+					<input type="hidden" value="0" name="sizeId" />
+				{% endif %}
+			
+				<input type="hidden" value="{{request.args.get('prodId')}}" name="prodId" />
+				
+				{% if data[5] > 0 %}
+					<input type="submit" class="btn btn-danger" value="Add to Cart" />
+				{% else %}
+					<input type="submit" class="btn btn-dark" disabled="disabled" value="Add to Cart" />
+				{% endif %}
+		
+			</form>
+			
+			{% if tags %}
+			<div class="mt-5 small" id="tags">
+				{% for t in tags %}
+					<form action="/search" method="POST">
+						<input name="categ-{{t[1]}}" type="hidden" value="{{t[1]}}">
+						<input type="hidden" name="searchQuery" value="" />
+						<input type="submit" class="btn btn-outline-info btn-sm" value="{{t[0]}}"/>
+					</form>
+				{% endfor %}
+			</div>
+			{% endif %}
+			
+		</div>
+	</div>
+
+	{% if isAdmin %}
+	<div class="mt-5">
+			<a class="btn btn-sm btn-outline-warning" href="/edit?prodId={{request.args.get('prodId')}}">edit</a> 
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+
