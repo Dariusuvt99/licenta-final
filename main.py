@@ -7,7 +7,7 @@ app.secret_key = 'random string'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif', 'webp'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+6
 def getLoginDetails():
     isAdmin = False
     with sqlite3.connect('database.db') as cnn:
@@ -87,7 +87,27 @@ def render_main_page(searchQuery = None, filters=[], instock = False):
             
         
         baseSelect = '''SELECT 
-                            prodId as prodId, name, price, descr, img, stock
+                            prodId as prodId, name, price, descr, img, stock,
+                              (
+                                select sum(size_stoc.stock)
+                                    from size_values
+                                    left join size_stoc 
+                                        on (size_values.idValue = size_stoc.sizeId and size_stoc.prodId = prods.prodId)
+                                    where idGroup = (
+                                        select idGroup from size_cats where idCat in (
+                                            select catId from prodcat where prodId = prods.prodId
+                                        )
+                                    )
+                                ) as sumStock,
+                                (
+                                    select count(idValue)
+                                    from size_values
+                                    where idGroup = (
+                                        select idGroup from size_cats where idCat in (
+                                            select catId from prodcat where prodId = prods.prodId
+                                        )
+                                    )
+                                ) as sizeEnable
                         FROM prods
                         '''
         if (searchQuery):
@@ -107,6 +127,8 @@ def render_main_page(searchQuery = None, filters=[], instock = False):
         for item in itemData:
             if item[5] > 0:
                 nrinstock += 1
+        
+
         
         crs.execute('SELECT categId, name FROM categs')
         categoryData = crs.fetchall()
@@ -214,11 +236,19 @@ def saveItem():
             imagename = filename
             
         selecteCategories = []
+        stockPerSize = {}
         for item in request.form:
             if item.startswith("categ"):
                 catId = (int)(item.replace("categ-",""))
                 selecteCategories.append(catId)
-            
+                
+            if item.startswith("size"):
+                sizeId = (int)(item.replace("size-",""))
+                if request.form[item]:
+                    stockVal = (int)(request.form[item])
+                    stockPerSize[sizeId] = (stockVal)
+                
+        print (stockPerSize)
         with sqlite3.connect('database.db') as cnn:
             try:
                 crs = cnn.cursor()
@@ -248,6 +278,13 @@ def saveItem():
                 crs.execute("delete from prodcat where prodId=?", (id,))
                 for catId in selecteCategories:
                     crs.execute("insert into prodcat (prodId, catId) VALUES (?,?)", (id, catId))
+                    
+                crs.execute("delete from size_stoc where prodId=?", (id,))
+                
+                for sizeId in stockPerSize:
+                    qty = stockPerSize[sizeId]
+                    crs.execute("insert into size_stoc (prodId, sizeId, stock) VALUES (?,?,?)", (id, sizeId, qty))
+                
                 cnn.commit()
             except Exception as e:
                 print(e)
@@ -280,6 +317,17 @@ def edit():
         crs.execute('select filterId, name from filter')
         filters = crs.fetchall()
         
+        crs.execute(''' select idValue, name, size_stoc.stock
+                    from size_values
+                    left join size_stoc 
+                        on (size_values.idValue = size_stoc.sizeId and size_stoc.prodId = ?)
+                    where idGroup = (
+                        select idGroup from size_cats where idCat in (
+                            select catId from prodcat where prodId = ?
+                        )
+                    )''', (prodId, prodId))
+        sizes = crs.fetchall()
+        
         selectedCategories = []
         for cat in cats:
             selectedCategories.append(cat[0])
@@ -295,7 +343,7 @@ def edit():
                                             selected,
                                             cat[2]) )
             
-        return render_template('edit.html', prod=prod[0], categoryData=fullCategoryData, filters=filters, loggedIn=loggedIn, fName=fName, itemsNo=itemsNo, isAdmin=isAdmin)
+        return render_template('edit.html', prod=prod[0], categoryData=fullCategoryData, filters=filters, sizes=sizes, loggedIn=loggedIn, fName=fName, itemsNo=itemsNo, isAdmin=isAdmin)
 
 @app.route("/remove")
 def remove():
@@ -484,19 +532,15 @@ def productDescription():
         crs.execute('SELECT prodId, name, price, descr, img, stock FROM prods WHERE prodId = ?', (prodId, ))
         productData = crs.fetchone()
         
-        crs.execute(''' select 
-                            idValue, name
-                        from size_values 
-                        WHERE idGroup in (
-                            select 
-                                idGroup 
-                            from size_cats 
-                            where size_cats.idCat in (
-                                select prodcat.catId
-                                from prodcat where prodcat.prodId = ? 
-                            )
+        crs.execute(''' select idValue, name, size_stoc.stock
+                    from size_values
+                    left join size_stoc 
+                        on (size_values.idValue = size_stoc.sizeId and size_stoc.prodId = ?)
+                    where idGroup = (
+                        select idGroup from size_cats where idCat in (
+                            select catId from prodcat where prodId = ?
                         )
-                    ''', (prodId, ))
+                    )''', (prodId, prodId))
         sizes = crs.fetchall()
         
         crs.execute('''select 
@@ -507,6 +551,14 @@ def productDescription():
         tags = crs.fetchall()
         
         similar = get_similar_products(tags)
+        
+        if sizes:
+            calculatedStock = 0
+            for (idSize, sizeName, qty) in sizes:
+                if qty:
+                    calculatedStock = calculatedStock + 1
+            productData = (productData[0], productData[1], productData[2], productData[3], productData[4], calculatedStock)
+                
     cnn.close()
     return render_template("productDescription.html", data=productData, sizes=sizes, tags=tags, similar=similar, loggedIn = loggedIn, fName = fName, itemsNo = itemsNo, isAdmin=isAdmin)
 
@@ -575,7 +627,8 @@ def decrease_stock(prods):
     with sqlite3.connect('database.db') as cnn:
         crs = cnn.cursor()
         for p in prods:
-            crs.execute("update prods set stock = stock - 1 where prodId = ?", (p[0], ))    
+            crs.execute("update prods set stock = stock - ? where prodId = ?", (p[4], p[0], ))    
+            crs.execute("update size_stoc set stock = stock - ? where prodId = ? and sizeId = ?", (p[4], p[0], p[5]))   
     
 def create_new_order(userId, totalPrice):
     with sqlite3.connect('database.db') as cnn:

@@ -47,7 +47,7 @@
 					</div>
 				</div>
 				
-				{% if sizes %}
+				{% if sizes and data[5] > 0 %}
 				<div class="row">
 					<div class="col">
 						<p>Size:</p>
@@ -55,7 +55,9 @@
 					<div class="col">
 						<select class="form-select w-50" aria-label="Size" name="sizeId">
 						{% for row in sizes %}
-							<option value="{{row[0]}}">{{row[1]}}</option>	
+							{% if row[2]: %}
+								<option value="{{row[0]}}">{{row[1]}}</option>	
+							{% endif %}
 						{% endfor %}
 						</select>
 					</div>

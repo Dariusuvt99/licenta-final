@@ -6,9 +6,15 @@
         <div class="card-body">
             <h5 class="card-title">{{product[1]}}</h5>
             <p class="card-text">
-                {% if product[5] > 2 %}
+                {% if product[7] %}
+                {%      set stock = product[6]%}
+                {% else  %}
+                {%      set stock = product[5]%}
+                {% endif %}
+                
+                {% if stock > 2 %}
                     <span class="badge rounded-pill bg-success">In stock</span>
-                {% elif product[5] > 0 %}
+                {% elif stock > 0 %}
                     <span class="badge rounded-pill bg-warning text-dark">Limited stock</span>
                 {% else %}
                     <span class="badge rounded-pill bg-secondary">Out of stock</span>

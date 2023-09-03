@@ -22,25 +22,51 @@
 		</div>
 		<input class="form-control" type="file" name="img" />
 	</div>
+	
+	{% if sizes %}
+		<input class="form-control" type="hidden"  name="stock" value="{{prod[5]}}" />
+	{% else %}
 	<div class="mb-3">	
 		<label class="form-label">Stock</label>		
-		<input class="form-control" type="text" name="stock" value="{{prod[5]}}" />
+		<input class="form-control" type="text"  name="stock" value="{{prod[5]}}" />
 	</div>
-	<div class="mb-3">	
-		{% for f in filters %}	
-		<div class="mt-2 mb-1">
-			<label class="form-label"><em>{{f[1]}}</em></label>	
-			{% for row in categoryData %}
-				{% if row[3] == f[0] %}
-					<div class="form-check">
-						<input class="form-check-input form-check-sm" name="categ-{{row[0]}}" type="checkbox" {% if row[2] %}checked{% endif %} value="{{row[0]}}" />
-						<label class="small">{{row[1]}}</label>
-					</div>
-				{% endif %}
-			{% endfor %}
+	{%endif%}
+	<div class="row">
+		<div class="col">
+			<h5>Stock / size</h5>
+			<div class="mb-3">	
+				<table class="table table-sm compact">
+				<thead><th>Size</th><th>Stock</th></thead>
+					<tbody>
+						{% for s in sizes %}	
+						<tr>
+							<td class="text-right align-middle"><label class="form-label"><em>{{s[1]}}</em></label></td>
+							<td><input class="form-control" style="width: 100px; margin-right: auto;" size="5" type="number" name="size-{{s[0]}}" value="{% if s[2] %}{{s[2]}}{% endif %}" /></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>	
 		</div>
-		{% endfor %}
+		<div class="col">
+			<div class="mb-3">	
+				{% for f in filters %}	
+				<div class="mt-2 mb-1">
+					<label class="form-label"><em>{{f[1]}}</em></label>	
+					{% for row in categoryData %}
+						{% if row[3] == f[0] %}
+							<div class="form-check">
+								<input class="form-check-input form-check-sm" name="categ-{{row[0]}}" type="checkbox" {% if row[2] %}checked{% endif %} value="{{row[0]}}" />
+								<label class="small">{{row[1]}}</label>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% endfor %}
+			</div>
+		</div>
 	</div>
+	
 	<input class="btn btn-success" type="submit" />
 </form>
 
